@@ -8,7 +8,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.Lob
 
 @Entity
-class Cover(
+class Cover private constructor(
     @Lob
     @Column(nullable = false)
     var content: String,
