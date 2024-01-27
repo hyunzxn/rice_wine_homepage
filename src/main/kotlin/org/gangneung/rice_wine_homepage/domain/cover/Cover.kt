@@ -28,15 +28,15 @@ class Cover private constructor(
     companion object {
         fun createInstance(
             content: String,
-            snsName: String,
             address: String,
             callNumber: String,
+            snsName: String,
         ): Cover {
             return Cover(
                 content = content,
-                snsName = snsName,
                 address = address,
-                callNumber = callNumber
+                callNumber = callNumber,
+                snsName = snsName,
             )
         }
     }
