@@ -26,7 +26,7 @@ class Cover private constructor(
     val id: Long? = null,
 ) {
     companion object {
-        fun of(
+        fun createInstance(
             content: String,
             snsName: String,
             address: String,
