@@ -10,7 +10,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 
 @Entity
-class Image private constructor(
+class CoverImage private constructor(
     @Column(nullable = false)
     val imageUrl: String,
 
@@ -23,8 +23,8 @@ class Image private constructor(
     val id: Long? = null,
 ) {
     companion object {
-        fun createInstance(imageUrl: String, cover: Cover): Image {
-            return Image(imageUrl = imageUrl, cover = cover)
+        fun createInstance(imageUrl: String, cover: Cover): CoverImage {
+            return CoverImage(imageUrl = imageUrl, cover = cover)
         }
     }
 }
