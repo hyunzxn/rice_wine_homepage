@@ -40,4 +40,11 @@ class Cover private constructor(
             )
         }
     }
+
+    fun modify(content: String, address: String, callNumber: String, snsName: String) {
+        this.content = content
+        this.address = address
+        this.callNumber = callNumber
+        this.snsName = snsName
+    }
 }
