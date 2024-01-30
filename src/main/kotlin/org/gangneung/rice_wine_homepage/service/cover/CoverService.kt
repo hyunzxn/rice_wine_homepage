@@ -5,6 +5,7 @@ import org.gangneung.rice_wine_homepage.implement.cover.CoverAppender
 import org.gangneung.rice_wine_homepage.implement.cover.CoverModifier
 import org.gangneung.rice_wine_homepage.presentation.cover.request.CoverModify
 import org.gangneung.rice_wine_homepage.presentation.cover.request.CoverReader
+import org.gangneung.rice_wine_homepage.presentation.cover.response.CoverResponse
 import org.springframework.stereotype.Service
 
 @Service
@@ -13,6 +14,10 @@ class CoverService(
     private val coverAppender: CoverAppender,
     private val coverModifier: CoverModifier,
 ) {
+    fun get(): CoverResponse {
+        return CoverResponse.toResponse(coverReader.readBy(1L))
+    }
+
     fun append(cover: Cover): Long {
         return coverAppender.append(cover)
     }
