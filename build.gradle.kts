@@ -40,10 +40,6 @@ dependencies {
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
-    // Logging
-    runtimeOnly("io.github.oshai:kotlin-logging-jvm:6.0.2")
-
 }
 
 tasks.withType<KotlinCompile> {
