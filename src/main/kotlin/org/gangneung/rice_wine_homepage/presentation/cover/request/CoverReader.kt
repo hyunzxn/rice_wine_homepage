@@ -1,7 +1,7 @@
 package org.gangneung.rice_wine_homepage.presentation.cover.request
 
 import org.gangneung.rice_wine_homepage.domain.cover.Cover
-import org.gangneung.rice_wine_homepage.repository.CoverRepository
+import org.gangneung.rice_wine_homepage.repository.cover.CoverRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
