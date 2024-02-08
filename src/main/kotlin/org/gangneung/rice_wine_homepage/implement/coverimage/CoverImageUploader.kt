@@ -2,7 +2,6 @@ package org.gangneung.rice_wine_homepage.implement.coverimage
 
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.ObjectMetadata
-import org.gangneung.rice_wine_homepage.util.logger
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
@@ -16,8 +15,6 @@ class CoverImageUploader(
 ) {
     @Value("\${cloud.aws.s3.bucket}")
     private lateinit var bucket: String
-
-    private val log = logger()
 
     fun uploadCoverImage(files: List<MultipartFile>): List<String> {
         val imageUrls = mutableListOf<String>()
@@ -34,7 +31,7 @@ class CoverImageUploader(
                 val uploadImageUrl = amazonS3Client.getUrl(bucket, fileName).toString()
                 imageUrls.add(uploadImageUrl)
             } catch (e: IOException) {
-                log.error("S3에 파일을 제대로 업로드 하지 못 했습니다.", e)
+                throw RuntimeException("S3에 파일을 제대로 업로드 하지 못 했습니다.", e)
             }
         }
         return imageUrls
