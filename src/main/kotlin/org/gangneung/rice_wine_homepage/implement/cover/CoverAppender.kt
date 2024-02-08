@@ -10,7 +10,7 @@ class CoverAppender(
     private val coverRepository: CoverRepository,
 ) {
     @Transactional
-    fun append(cover: Cover): Long {
-        return coverRepository.save(cover).id!!
+    fun append(cover: Cover): Cover {
+        return coverRepository.save(cover)
     }
 }
