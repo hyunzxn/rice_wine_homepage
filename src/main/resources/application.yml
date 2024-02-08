@@ -23,6 +23,25 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  data:
+    redis:
+      host: localhost
+      port: 6379
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    s3:
+      bucket: rice-wine-cover-image
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 ---
 ### Test Profile
 spring:

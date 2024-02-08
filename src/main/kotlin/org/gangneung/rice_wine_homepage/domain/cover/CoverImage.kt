@@ -14,6 +14,9 @@ class CoverImage private constructor(
     @Column(nullable = false)
     val imageUrl: String,
 
+    @Column(nullable = false)
+    val title: String,
+
     @ManyToOne
     @JoinColumn(name = "cover_id", foreignKey = ForeignKey(name = "fk_cover_image"))
     val cover: Cover,
@@ -23,8 +26,8 @@ class CoverImage private constructor(
     val id: Long? = null,
 ) {
     companion object {
-        fun createInstance(imageUrl: String, cover: Cover): CoverImage {
-            return CoverImage(imageUrl = imageUrl, cover = cover)
+        fun createInstance(imageUrl: String, title: String, cover: Cover): CoverImage {
+            return CoverImage(imageUrl = imageUrl, title = title, cover = cover)
         }
     }
 }
