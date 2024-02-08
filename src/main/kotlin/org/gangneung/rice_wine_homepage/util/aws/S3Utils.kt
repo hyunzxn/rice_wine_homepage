@@ -1,7 +1,7 @@
 package org.gangneung.rice_wine_homepage.util.aws
 
 import com.amazonaws.services.s3.AmazonS3Client
-import org.springframework.beans.factory.annotation.Value
+import com.amazonaws.services.s3.model.DeleteObjectRequest
 import org.springframework.stereotype.Component
 
 @Component
@@ -19,5 +19,9 @@ class S3Utils(
             keys.add(summary.key)
         }
         return keys
+    }
+
+    fun deleteObject(bucket: String, key: String) {
+        amazonS3Client.deleteObject(DeleteObjectRequest(bucket, key))
     }
 }
