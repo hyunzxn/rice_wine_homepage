@@ -31,6 +31,7 @@ class CoverImageRemover(
             val imageUrlInRedis = redisTemplate.opsForValue().get(key)
             if (!imageUrlsInDB.contains(imageUrlInRedis)) {
                 s3Utils.deleteObject(bucket, key)
+                redisTemplate.delete(key)
                 log.info("소개글 작성을 완료하지 않아 S3에 있는 객체를 삭제하였습니다.")
             }
         }

@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 @Component
 class CoverImageUploader(
@@ -32,7 +33,7 @@ class CoverImageUploader(
                 val inputStream: InputStream = file.inputStream
                 amazonS3Client.putObject(bucket, fileName, inputStream, objectMetaData)
                 val uploadImageUrl = amazonS3Client.getUrl(bucket, fileName).toString()
-                operation[fileName] = uploadImageUrl
+                operation.set(fileName, uploadImageUrl, 61, TimeUnit.MINUTES) // 삭제 스케줄이 1시간마다 돌기 때문에 TTL을 그것보다 길게 설정
                 imageUrls.add(uploadImageUrl)
             } catch (e: IOException) {
                 throw RuntimeException("S3에 파일을 제대로 업로드 하지 못 했습니다.", e)
