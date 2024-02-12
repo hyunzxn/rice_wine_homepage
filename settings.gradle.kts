@@ -1,1 +1,1 @@
-rootProject.name = "rice_wine_homepage"
+rootProject.name = "rice-wine-homepage"
