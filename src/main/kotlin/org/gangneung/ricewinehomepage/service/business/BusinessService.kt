@@ -22,7 +22,7 @@ class BusinessService(
         }
         GlobalScope.launch {
             delay(2_000L)
-            businessEmailSender.send(business.subject, business.content)
+            businessEmailSender.send(business)
         }
     }
 }
