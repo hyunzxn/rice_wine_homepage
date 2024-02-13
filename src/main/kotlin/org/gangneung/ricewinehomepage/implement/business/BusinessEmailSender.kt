@@ -15,7 +15,7 @@ class BusinessEmailSender(
     @Value("\${spring.mail.username}")
     private lateinit var email: String
 
-    fun send(
+    suspend fun send(
         subject: String,
         content: String,
     ) {
