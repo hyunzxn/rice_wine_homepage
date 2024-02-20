@@ -34,6 +34,8 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:3.2.2")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
