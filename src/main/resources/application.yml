@@ -48,6 +48,8 @@ spring:
     mode: HTML
     encoding: UTF-8
     check-template-location: true
+  jwt:
+    secret: vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaaaaaaaaaaaaaaabbbbb
 cloud:
   aws:
     credentials:
@@ -59,6 +61,13 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+oauth:
+  naver:
+    client-id: ${NAVER_CLIENT_ID}
+    client-secret: ${NAVER_CLIENT_SECRET}
+  google:
+    client-id: ${GOOGLE_CLIENT_ID}
+    client-secret: ${GOOGLE_CLIENT_SECRET}
 ---
 ### Test Profile
 spring:

@@ -1,29 +1,54 @@
 package org.gangneung.ricewinehomepage.util.security.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.gangneung.ricewinehomepage.service.oauth2.CustomOAuth2UserService
+import org.gangneung.ricewinehomepage.util.security.handler.AccessDeniedHandler
+import org.gangneung.ricewinehomepage.util.security.handler.UnAuthorizedHandler
+import org.gangneung.ricewinehomepage.util.security.jwt.JwtAuthFilter
+import org.gangneung.ricewinehomepage.util.security.jwt.JwtUtil
+import org.gangneung.ricewinehomepage.util.security.oauth2.CustomClientRegistrationRepository
+import org.gangneung.ricewinehomepage.util.security.oauth2.handler.CustomSuccessHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.invoke
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+class SecurityConfig(
+    val objectMapper: ObjectMapper,
+    val customClientRegistrationRepository: CustomClientRegistrationRepository,
+    val customOAuth2UserService: CustomOAuth2UserService,
+    val customSuccessHandler: CustomSuccessHandler,
+    val jwtUtil: JwtUtil,
+) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
-        http {
-            csrf { disable() }
-            formLogin { disable() }
-            httpBasic { disable() }
-            oauth2Login {
+        http
+            .formLogin { it.disable() }
+            .csrf { it.disable() }
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .oauth2Login {
+                it.loginPage("/login")
+                it.clientRegistrationRepository(customClientRegistrationRepository.clientRegistrationRepository())
+                it.userInfoEndpoint { configure ->
+                    configure.userService(customOAuth2UserService)
+                }
+                it.successHandler(customSuccessHandler)
             }
-            authorizeHttpRequests {
-                authorize("/", permitAll)
-                authorize("/login", permitAll)
-                authorize(anyRequest, authenticated)
+            .authorizeHttpRequests {
+                it.requestMatchers("/", "/index.html", "/static/**").permitAll()
+                it.anyRequest().authenticated()
             }
-        }
+            .addFilterBefore(JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter::class.java)
+            .exceptionHandling {
+                it.authenticationEntryPoint(UnAuthorizedHandler(objectMapper))
+                it.accessDeniedHandler(AccessDeniedHandler(objectMapper))
+            }
         return http.build()
     }
 }
