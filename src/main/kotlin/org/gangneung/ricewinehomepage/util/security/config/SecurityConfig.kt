@@ -10,7 +10,6 @@ import org.gangneung.ricewinehomepage.util.security.oauth2.CustomClientRegistrat
 import org.gangneung.ricewinehomepage.util.security.oauth2.handler.CustomSuccessHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.invoke
@@ -42,9 +41,7 @@ class SecurityConfig(
                 it.successHandler(customSuccessHandler)
             }
             .authorizeHttpRequests {
-                it.requestMatchers("/", "/index.html", "/static/**").permitAll()
-                it.requestMatchers(HttpMethod.GET, "/api/covers").permitAll()
-                it.anyRequest().authenticated()
+                it.anyRequest().permitAll()
             }
             .addFilterBefore(JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter::class.java)
             .exceptionHandling {
