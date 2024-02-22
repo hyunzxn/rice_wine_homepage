@@ -25,7 +25,7 @@ class CustomSuccessHandler(
         val username = customUserDetails.getUsername()
         val authorities = authentication.authorities
         val role = authorities.first().authority
-        val token = jwtUtil.createJwt(username, role, 60 * 60 * 60L)
+        val token = jwtUtil.createJwt(username, role, 60 * 10000L) // todo 개발 환경에선 10분 => 추후 변경 필요
 
         response.addCookie(createCookie("Authorization", token))
     }
