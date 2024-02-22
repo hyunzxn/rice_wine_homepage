@@ -5,6 +5,11 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
+/**
+ * username => {서비스명}-{고유아이디}
+ *
+ * name => 네이버 이름 또는 구글 닉네임
+ */
 @Entity
 class User private constructor(
     var username: String,
