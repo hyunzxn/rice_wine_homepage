@@ -40,11 +40,12 @@ class CustomOAuth2UserService(
                 )
             return CustomOAuth2User(userDto)
         } else {
-            existData.update(oAuth2Response.getName(), oAuth2Response.getEmail()) // todo update 하는 부분 다시 별도로 객체 만들어서 해야할 수도? 트랜잭션 범위 때문에
+            existData.update(oAuth2Response.getName(), oAuth2Response.getEmail())
+            userAppender.append(existData)
             val userDto =
                 UserDto(
                     name = oAuth2Response.getName(),
-                    username = existData.name,
+                    username = existData.username,
                     role = existData.role,
                 )
             return CustomOAuth2User(userDto)
