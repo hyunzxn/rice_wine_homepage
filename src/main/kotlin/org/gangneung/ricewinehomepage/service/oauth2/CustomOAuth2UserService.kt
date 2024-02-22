@@ -32,23 +32,11 @@ class CustomOAuth2UserService(
                     role = "ROLE_USER",
                 )
             userAppender.append(newUser)
-            val userDto =
-                UserDto(
-                    name = oAuth2Response.getName(),
-                    username = username,
-                    role = "ROLE_USER",
-                )
-            return CustomOAuth2User(userDto)
+            return createCustomOAuth2User(oAuth2Response.getName(), username, "ROLE_USER")
         } else {
             existData.update(oAuth2Response.getName(), oAuth2Response.getEmail())
             userAppender.append(existData)
-            val userDto =
-                UserDto(
-                    name = oAuth2Response.getName(),
-                    username = existData.username,
-                    role = existData.role,
-                )
-            return CustomOAuth2User(userDto)
+            return createCustomOAuth2User(oAuth2Response.getName(), existData.username, existData.role)
         }
     }
 
@@ -66,5 +54,14 @@ class CustomOAuth2UserService(
                 throw RuntimeException("OAuth2 소셜 로그인 에러")
             }
         return oAuth2Response
+    }
+
+    private fun createCustomOAuth2User(
+        name: String,
+        username: String,
+        role: String,
+    ): CustomOAuth2User {
+        val userDto = UserDto(name, username, role)
+        return CustomOAuth2User(userDto)
     }
 }
