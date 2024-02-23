@@ -5,6 +5,7 @@ import org.gangneung.ricewinehomepage.presentation.cover.request.CoverModify
 import org.gangneung.ricewinehomepage.presentation.cover.response.CoverResponse
 import org.gangneung.ricewinehomepage.service.cover.CoverService
 import org.gangneung.ricewinehomepage.util.ApiResponse
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -23,6 +24,7 @@ class CoverController(
         return ApiResponse.ok("소개글 조회가 완료됐습니다", coverService.get())
     }
 
+    @PreAuthorize("isAuthenticated()") // todo 권한이 Admin인 유저만 요청할 수 있도록 변경 필요
     @PostMapping
     fun append(
         @RequestBody request: CoverAppend,
