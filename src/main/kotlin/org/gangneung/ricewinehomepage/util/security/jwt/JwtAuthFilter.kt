@@ -25,6 +25,7 @@ class JwtAuthFilter(
             }
         }
 
+        // 쿠키에 JWT 값이 담겨있지 않은 경우 강제 종료
         if (authorization == null) {
             filterChain.doFilter(request, response)
             return
@@ -32,6 +33,7 @@ class JwtAuthFilter(
 
         val token = authorization
 
+        // 토큰의 유효 시간이 만료된 경우 강제 종료
         if (jwtUtil.isExpired(token ?: return)) {
             filterChain.doFilter(request, response)
             return
