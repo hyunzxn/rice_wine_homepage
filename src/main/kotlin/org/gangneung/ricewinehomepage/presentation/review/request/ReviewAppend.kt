@@ -14,7 +14,7 @@ fun ReviewAppend.toReview(user: User): Review {
     return Review.createInstance(
         title = this.title,
         content = this.content,
-        date = LocalDate.now(),
+        buyDate = LocalDate.now(),
         grade = this.grade,
         user = user,
     )
