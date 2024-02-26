@@ -8,6 +8,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.Lob
 import jakarta.persistence.ManyToOne
+import org.gangneung.ricewinehomepage.domain.BaseTimeEntity
 import org.gangneung.ricewinehomepage.domain.user.User
 import java.time.LocalDate
 
@@ -28,7 +29,7 @@ class Review private constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-) {
+) : BaseTimeEntity() {
     companion object {
         fun createInstance(
             title: String,
