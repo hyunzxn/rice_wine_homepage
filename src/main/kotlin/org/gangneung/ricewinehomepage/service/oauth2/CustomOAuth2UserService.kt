@@ -32,11 +32,11 @@ class CustomOAuth2UserService(
                     role = "ROLE_USER",
                 )
             userAppender.append(newUser)
-            return createCustomOAuth2User(oAuth2Response.getName(), username, "ROLE_USER")
+            return createCustomOAuth2User(username, oAuth2Response.getName(), "ROLE_USER")
         } else {
             existData.update(oAuth2Response.getName(), oAuth2Response.getEmail())
             userAppender.append(existData)
-            return createCustomOAuth2User(oAuth2Response.getName(), existData.username, existData.role)
+            return createCustomOAuth2User(existData.username, oAuth2Response.getName(), existData.role)
         }
     }
 
@@ -57,11 +57,11 @@ class CustomOAuth2UserService(
     }
 
     private fun createCustomOAuth2User(
-        name: String,
         username: String,
+        name: String,
         role: String,
     ): CustomOAuth2User {
-        val userDto = UserDto(name, username, role)
+        val userDto = UserDto(username, name, role)
         return CustomOAuth2User(userDto)
     }
 }
