@@ -9,7 +9,7 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.Lob
 import jakarta.persistence.ManyToOne
 import org.gangneung.ricewinehomepage.domain.user.User
-import org.joda.time.LocalDate
+import java.time.LocalDate
 
 @Entity
 class Review private constructor(
