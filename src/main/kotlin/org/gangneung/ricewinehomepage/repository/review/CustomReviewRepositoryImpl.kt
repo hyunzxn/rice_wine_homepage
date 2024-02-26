@@ -29,8 +29,10 @@ class CustomReviewRepositoryImpl(
 
         // sort 조건 넣어줌에 따라 정렬
         for (value in sortCondition) {
-            if (value == "old") {
-                sortSpecifications.add(OrderSpecifier(Order.ASC, review.createdAt))
+            when (value) {
+                "old" -> {
+                    sortSpecifications.add(OrderSpecifier(Order.ASC, review.createdAt))
+                }
             }
         }
 
