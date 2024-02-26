@@ -28,4 +28,9 @@ class ReviewService(
         val reviewList = reviewReader.getReviewList(request)
         return reviewList.map { ReviewResponse.toResponse(it) }
     }
+
+    fun getReview(id: Long): ReviewResponse {
+        val review = reviewReader.readById(id)
+        return ReviewResponse.toResponse(review)
+    }
 }
