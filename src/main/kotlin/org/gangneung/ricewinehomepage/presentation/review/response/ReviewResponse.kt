@@ -13,9 +13,11 @@ data class ReviewResponse(
 ) {
     companion object {
         fun toResponse(review: Review): ReviewResponse {
+            val name = review.user.name
+            val maskingName = name[0] + "*".repeat(name.length - 1)
             return ReviewResponse(
                 id = review.id!!,
-                username = review.user.name,
+                username = maskingName,
                 date = review.buyDate,
                 title = review.title,
                 content = review.content,
