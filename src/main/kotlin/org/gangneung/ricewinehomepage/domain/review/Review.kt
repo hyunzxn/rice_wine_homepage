@@ -19,7 +19,7 @@ class Review private constructor(
     @Lob
     var content: String,
     @Column(nullable = false)
-    val date: LocalDate,
+    val buyDate: LocalDate,
     @Column(nullable = false)
     var grade: Int,
     @ManyToOne
@@ -33,14 +33,14 @@ class Review private constructor(
         fun createInstance(
             title: String,
             content: String,
-            date: LocalDate,
+            buyDate: LocalDate,
             grade: Int,
             user: User,
         ): Review {
             return Review(
                 title = title,
                 content = content,
-                date = date,
+                buyDate = buyDate,
                 grade = grade,
                 user = user,
             )
