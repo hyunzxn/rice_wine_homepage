@@ -42,4 +42,14 @@ class ReviewController(
     ): ApiResponse<ReviewResponse> {
         return ApiResponse.ok("개별 리뷰 조회 성공", reviewService.getReview(id))
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/likes/{id}")
+    fun likeReview(
+        @PathVariable id: Long,
+        @AuthenticationPrincipal user: CustomOAuth2User,
+    ): ApiResponse<Long> {
+        val username = user.getUsername()
+        return ApiResponse.ok("좋아요 요청 성공", reviewService.likeReview(id, username))
+    }
 }
