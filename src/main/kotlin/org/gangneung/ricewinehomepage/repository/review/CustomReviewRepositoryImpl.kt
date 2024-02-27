@@ -33,6 +33,9 @@ class CustomReviewRepositoryImpl(
                 "old" -> {
                     sortSpecifications.add(OrderSpecifier(Order.ASC, review.createdAt))
                 }
+                "view" -> {
+                    sortSpecifications.add(OrderSpecifier(Order.DESC, review.viewCount))
+                }
             }
         }
 
