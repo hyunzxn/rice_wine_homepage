@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 class ReviewLikeAppender(
     private val reviewLikeRepository: ReviewLikeRepository,
     private val reviewLikeReader: ReviewLikeReader,
+    private val reviewAppender: ReviewAppender,
 ) {
     @Transactional
     fun append(
@@ -19,8 +20,12 @@ class ReviewLikeAppender(
     ) {
         val existLike = reviewLikeReader.read(review, user)
         if (existLike != null) {
+            review.cancelLike()
+            reviewAppender.append(review)
             reviewLikeRepository.delete(existLike)
         } else {
+            review.addLike()
+            reviewAppender.append(review)
             reviewLikeRepository.save(ReviewLike.createInstance(review, user))
         }
     }
