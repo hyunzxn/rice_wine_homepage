@@ -36,6 +36,9 @@ class CustomReviewRepositoryImpl(
                 "view" -> {
                     sortSpecifications.add(OrderSpecifier(Order.DESC, review.viewCount))
                 }
+                "like" -> {
+                    sortSpecifications.add(OrderSpecifier(Order.DESC, review.likeCount))
+                }
             }
         }
 
