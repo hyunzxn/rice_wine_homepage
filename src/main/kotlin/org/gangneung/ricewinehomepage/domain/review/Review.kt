@@ -25,6 +25,8 @@ class Review private constructor(
     var grade: Int,
     @Column(nullable = false)
     var viewCount: Int = 0,
+    @Column(nullable = false)
+    var likeCount: Int = 0,
     @ManyToOne
     @JoinColumn(name = "user_id")
     var user: User,
@@ -52,5 +54,13 @@ class Review private constructor(
 
     fun updateViewCount() {
         viewCount++
+    }
+
+    fun addLike() {
+        likeCount++
+    }
+
+    fun cancelLike() {
+        likeCount--
     }
 }
