@@ -36,7 +36,6 @@ class ReviewController(
         return ApiResponse.ok("고객 리뷰 리스트 조회 성공", reviewService.getReviewList(request))
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     fun getReview(
         @PathVariable id: Long,

@@ -1,5 +1,7 @@
 package org.gangneung.ricewinehomepage.repository.review
 
+import com.querydsl.core.types.Order
+import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.gangneung.ricewinehomepage.domain.review.QReview.review
 import org.gangneung.ricewinehomepage.domain.review.Review
@@ -13,7 +15,30 @@ class CustomReviewRepositoryImpl(
             .selectFrom(review)
             .offset(request.offset)
             .limit(request.size.toLong())
-            .orderBy(review.id.desc())
+            .orderBy(*createOrderSpecifier(request.sort))
             .fetch()
+    }
+
+    private fun createOrderSpecifier(sortCondition: List<String>): Array<OrderSpecifier<*>> {
+        val sortSpecifications = mutableListOf<OrderSpecifier<*>>()
+
+        // sort 조건을 넣지 않으면 기본적으로 최신순부터 정렬
+        if (sortCondition.isEmpty()) {
+            sortSpecifications.add(OrderSpecifier(Order.DESC, review.id))
+        }
+
+        // sort 조건 넣어줌에 따라 정렬
+        for (value in sortCondition) {
+            when (value) {
+                "old" -> {
+                    sortSpecifications.add(OrderSpecifier(Order.ASC, review.createdAt))
+                }
+                "view" -> {
+                    sortSpecifications.add(OrderSpecifier(Order.DESC, review.viewCount))
+                }
+            }
+        }
+
+        return sortSpecifications.toTypedArray()
     }
 }

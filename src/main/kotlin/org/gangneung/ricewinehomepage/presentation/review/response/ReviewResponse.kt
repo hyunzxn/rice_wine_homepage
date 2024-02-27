@@ -10,6 +10,7 @@ data class ReviewResponse(
     val title: String,
     val content: String,
     val grade: Int,
+    val viewCount: Int,
 ) {
     companion object {
         fun toResponse(review: Review): ReviewResponse {
@@ -22,6 +23,7 @@ data class ReviewResponse(
                 title = review.title,
                 content = review.content,
                 grade = review.grade,
+                viewCount = review.viewCount,
             )
         }
     }

@@ -6,6 +6,7 @@ import kotlin.math.min
 data class CustomPagingRequest(
     var page: Int = 1,
     var size: Int = 10,
+    var sort: List<String>,
 ) {
     companion object {
         private const val MAX_SIZE = 2000
