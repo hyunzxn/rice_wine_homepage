@@ -23,6 +23,8 @@ class Review private constructor(
     val buyDate: LocalDate,
     @Column(nullable = false)
     var grade: Int,
+    @Column(nullable = false)
+    var viewCount: Int = 0,
     @ManyToOne
     @JoinColumn(name = "user_id")
     var user: User,
@@ -46,5 +48,9 @@ class Review private constructor(
                 user = user,
             )
         }
+    }
+
+    fun updateViewCount() {
+        viewCount++
     }
 }

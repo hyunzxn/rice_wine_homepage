@@ -1,6 +1,7 @@
 package org.gangneung.ricewinehomepage.service.review
 
 import org.gangneung.ricewinehomepage.implement.review.ReviewAppender
+import org.gangneung.ricewinehomepage.implement.review.ReviewModifier
 import org.gangneung.ricewinehomepage.implement.review.ReviewReader
 import org.gangneung.ricewinehomepage.implement.user.UserReader
 import org.gangneung.ricewinehomepage.presentation.review.request.ReviewAppend
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service
 class ReviewService(
     private val reviewAppender: ReviewAppender,
     private val reviewReader: ReviewReader,
+    private val reviewModifier: ReviewModifier,
     private val userReader: UserReader,
 ) {
     fun append(
@@ -31,6 +33,7 @@ class ReviewService(
 
     fun getReview(id: Long): ReviewResponse {
         val review = reviewReader.readById(id)
+        reviewModifier.updateViewCount(review)
         return ReviewResponse.toResponse(review)
     }
 }
