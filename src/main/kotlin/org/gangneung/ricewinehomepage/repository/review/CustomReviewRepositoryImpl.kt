@@ -19,6 +19,13 @@ class CustomReviewRepositoryImpl(
             .fetch()
     }
 
+    override fun search(q: String): List<Review> {
+        return jpaQueryFactory
+            .selectFrom(review)
+            .where(review.title.containsIgnoreCase(q))
+            .fetch()
+    }
+
     private fun createOrderSpecifier(sortCondition: List<String>): Array<OrderSpecifier<*>> {
         val sortSpecifications = mutableListOf<OrderSpecifier<*>>()
 
