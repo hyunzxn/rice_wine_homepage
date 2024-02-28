@@ -19,4 +19,8 @@ class ReviewReader(
     fun readById(id: Long): Review {
         return reviewRepository.findByIdOrNull(id) ?: throw RuntimeException("존재하지 않는 리뷰입니다.")
     }
+
+    fun search(q: String): List<Review> {
+        return reviewRepository.search(q)
+    }
 }
