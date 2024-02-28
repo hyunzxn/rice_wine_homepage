@@ -48,4 +48,9 @@ class ReviewService(
         reviewLikeAppender.append(review, loginUser)
         return review.id!!
     }
+
+    fun search(q: String): List<ReviewResponse> {
+        return reviewReader.search(q)
+            .map { ReviewResponse.toResponse(it) }
+    }
 }
