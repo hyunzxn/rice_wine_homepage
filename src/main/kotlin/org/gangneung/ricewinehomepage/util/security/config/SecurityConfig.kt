@@ -14,8 +14,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity
@@ -43,7 +43,7 @@ class SecurityConfig(
             .authorizeHttpRequests {
                 it.anyRequest().permitAll()
             }
-            .addFilterBefore(JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterAfter(JwtAuthFilter(jwtUtil), OAuth2LoginAuthenticationFilter::class.java)
             .exceptionHandling {
                 it.authenticationEntryPoint(UnAuthorizedHandler(objectMapper))
                 it.accessDeniedHandler(AccessDeniedHandler(objectMapper))
