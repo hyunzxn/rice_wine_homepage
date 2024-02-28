@@ -5,6 +5,4 @@ import org.gangneung.ricewinehomepage.util.CustomPagingRequest
 
 interface CustomReviewRepository {
     fun getReviewList(request: CustomPagingRequest): List<Review>
-
-    fun search(q: String): List<Review>
 }

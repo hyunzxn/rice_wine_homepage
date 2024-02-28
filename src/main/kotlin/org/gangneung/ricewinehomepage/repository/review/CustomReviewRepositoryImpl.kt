@@ -15,14 +15,8 @@ class CustomReviewRepositoryImpl(
             .selectFrom(review)
             .offset(request.offset)
             .limit(request.size.toLong())
+            .where(review.title.containsIgnoreCase(request.q))
             .orderBy(*createOrderSpecifier(request.sort))
-            .fetch()
-    }
-
-    override fun search(q: String): List<Review> {
-        return jpaQueryFactory
-            .selectFrom(review)
-            .where(review.title.containsIgnoreCase(q))
             .fetch()
     }
 

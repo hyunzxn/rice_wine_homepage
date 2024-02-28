@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -52,13 +51,5 @@ class ReviewController(
     ): ApiResponse<Long> {
         val username = user.getUsername()
         return ApiResponse.ok("좋아요 요청 성공", reviewService.likeReview(id, username))
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/search")
-    fun search(
-        @RequestParam q: String,
-    ): ApiResponse<List<ReviewResponse>> {
-        return ApiResponse.ok("고객 리뷰 검색 성공", reviewService.search(q))
     }
 }
