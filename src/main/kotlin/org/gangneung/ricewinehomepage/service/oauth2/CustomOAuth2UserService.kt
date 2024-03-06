@@ -6,6 +6,7 @@ import org.gangneung.ricewinehomepage.implement.user.UserReader
 import org.gangneung.ricewinehomepage.util.security.oauth2.CustomOAuth2User
 import org.gangneung.ricewinehomepage.util.security.oauth2.UserDto
 import org.gangneung.ricewinehomepage.util.security.oauth2.response.GoogleOAuth2Response
+import org.gangneung.ricewinehomepage.util.security.oauth2.response.KakaoOAuth2Response
 import org.gangneung.ricewinehomepage.util.security.oauth2.response.NaverOAuth2Response
 import org.gangneung.ricewinehomepage.util.security.oauth2.response.OAuth2Response
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
@@ -50,6 +51,8 @@ class CustomOAuth2UserService(
                 NaverOAuth2Response(oauth2User.attributes)
             } else if (registrationId.equals("google")) {
                 GoogleOAuth2Response(oauth2User.attributes)
+            } else if (registrationId.equals("kakao")) {
+                KakaoOAuth2Response(oauth2User.attributes)
             } else {
                 throw RuntimeException("OAuth2 소셜 로그인 에러")
             }

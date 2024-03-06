@@ -12,6 +12,7 @@ class CustomClientRegistrationRepository(
         return InMemoryClientRegistrationRepository(
             clientRegistration.naverClientRegistration(),
             clientRegistration.googleClientRegistration(),
+            clientRegistration.kakaoClientRegistration(),
         )
     }
 }
