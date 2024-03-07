@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController
 class ReviewController(
     private val reviewService: ReviewService,
 ) {
+    // todo 인증 완료된 User -> 자체 로그인, 소셜 로그인 다 받을 수 있는 방법 고민
     @PreAuthorize("isAuthenticated()")
     @PostMapping
     fun append(
@@ -43,6 +44,7 @@ class ReviewController(
         return ApiResponse.ok("개별 리뷰 조회 성공", reviewService.getReview(id))
     }
 
+    // todo 인증 완료된 User -> 자체 로그인, 소셜 로그인 다 받을 수 있는 방법 고민
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/likes/{id}")
     fun likeReview(

@@ -31,6 +31,7 @@ class CustomOAuth2UserService(
                     name = oAuth2Response.getName(),
                     email = oAuth2Response.getEmail(),
                     role = "ROLE_USER",
+                    loginProvider = oAuth2Response.getProvider().uppercase(),
                 )
             userAppender.append(newUser)
             return createCustomOAuth2User(username, oAuth2Response.getName(), "ROLE_USER")

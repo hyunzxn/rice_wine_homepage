@@ -3,6 +3,8 @@ package org.gangneung.ricewinehomepage.util.security.jwt
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.gangneung.ricewinehomepage.domain.user.User
+import org.gangneung.ricewinehomepage.service.auth.CustomUserDetails
 import org.gangneung.ricewinehomepage.util.security.oauth2.CustomOAuth2User
 import org.gangneung.ricewinehomepage.util.security.oauth2.UserDto
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -19,11 +21,11 @@ class JwtAuthFilter(
     ) {
         var authorization: String? = null
         val cookies = request.cookies
-        cookies.forEach { cookie ->
+        cookies?.forEach { cookie ->
             if (cookie.name == "Authorization") {
                 authorization = cookie.value
             }
-        }
+        } ?: return
 
         // 쿠키에 JWT 값이 담겨있지 않은 경우 강제 종료
         if (authorization == null) {
@@ -41,13 +43,32 @@ class JwtAuthFilter(
 
         val username = jwtUtil.getUsername(token)
         val role = jwtUtil.getRole(token)
+        val type = jwtUtil.getType(token)
 
         val userDto = UserDto(username, "user", role)
-        val customOAuth2User = CustomOAuth2User(userDto)
-        val authToken =
-            UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.authorities)
-        SecurityContextHolder.getContext().authentication = authToken
-
-        filterChain.doFilter(request, response)
+        if (type == "social") {
+            val customOAuth2User = CustomOAuth2User(userDto)
+            val emptyContext = SecurityContextHolder.createEmptyContext()
+            SecurityContextHolder.setContext(emptyContext)
+            val authToken =
+                UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.authorities)
+            SecurityContextHolder.getContext().authentication = authToken
+            filterChain.doFilter(request, response)
+        } else {
+            val user =
+                User.createInstance(
+                    username = username,
+                    name = "user",
+                    email = "email",
+                    role = role,
+                )
+            val customUserDetails = CustomUserDetails(user)
+            val emptyContext = SecurityContextHolder.createEmptyContext()
+            SecurityContextHolder.setContext(emptyContext)
+            val authToken =
+                UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.authorities)
+            SecurityContextHolder.getContext().authentication = authToken
+            filterChain.doFilter(request, response)
+        }
     }
 }
