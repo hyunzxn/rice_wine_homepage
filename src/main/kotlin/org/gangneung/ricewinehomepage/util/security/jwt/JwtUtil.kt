@@ -23,6 +23,10 @@ class JwtUtil(
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).payload["role"] as String
     }
 
+    fun getType(token: String): String {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).payload["type"] as String
+    }
+
     fun isExpired(token: String): Boolean {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).payload.expiration.before(Date())
     }
@@ -30,11 +34,13 @@ class JwtUtil(
     fun createJwt(
         username: String,
         role: String,
+        type: String,
         expiredMs: Long,
     ): String {
         return Jwts.builder()
             .claim("username", username)
             .claim("role", role)
+            .claim("type", type)
             .issuedAt(Date(System.currentTimeMillis()))
             .expiration(Date(System.currentTimeMillis() + expiredMs))
             .signWith(secretKey)
