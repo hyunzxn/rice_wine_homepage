@@ -1,7 +1,6 @@
 package org.gangneung.ricewinehomepage.util.security.jwt
 
 import jakarta.servlet.FilterChain
-import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.gangneung.ricewinehomepage.service.auth.CustomUserDetails
@@ -45,8 +44,7 @@ class LoginFilter(
 
         val token = jwtUtil.createJwt(username, role, "password", 60 * 10000L)
 
-        val cookie = Cookie("Authorization", token)
-        response.addCookie(cookie)
+        response.setHeader("Authorization", "Bearer $token")
     }
 
     override fun unsuccessfulAuthentication(

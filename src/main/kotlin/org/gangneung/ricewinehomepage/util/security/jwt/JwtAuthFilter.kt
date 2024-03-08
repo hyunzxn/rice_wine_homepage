@@ -19,21 +19,15 @@ class JwtAuthFilter(
         response: HttpServletResponse,
         filterChain: FilterChain,
     ) {
-        var authorization: String? = null
-        val cookies = request.cookies
-        cookies?.forEach { cookie ->
-            if (cookie.name == "Authorization") {
-                authorization = cookie.value
-            }
-        } ?: return
+        val authorization = request.getHeader("Authorization")
 
         // 쿠키에 JWT 값이 담겨있지 않은 경우 강제 종료
-        if (authorization == null) {
+        if (authorization == null || !authorization.startsWith("Bearer ")) {
             filterChain.doFilter(request, response)
             return
         }
 
-        val token = authorization
+        val token = authorization.split(" ")[1]
 
         // 토큰의 유효 시간이 만료된 경우 강제 종료
         if (jwtUtil.isExpired(token ?: return)) {
@@ -48,8 +42,6 @@ class JwtAuthFilter(
         val userDto = UserDto(username, "user", role)
         if (type == "social") {
             val customOAuth2User = CustomOAuth2User(userDto)
-            val emptyContext = SecurityContextHolder.createEmptyContext()
-            SecurityContextHolder.setContext(emptyContext)
             val authToken =
                 UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.authorities)
             SecurityContextHolder.getContext().authentication = authToken
@@ -63,8 +55,6 @@ class JwtAuthFilter(
                     role = role,
                 )
             val customUserDetails = CustomUserDetails(user)
-            val emptyContext = SecurityContextHolder.createEmptyContext()
-            SecurityContextHolder.setContext(emptyContext)
             val authToken =
                 UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.authorities)
             SecurityContextHolder.getContext().authentication = authToken

@@ -1,11 +1,12 @@
 package org.gangneung.ricewinehomepage.util.security.oauth2
 
+import org.gangneung.ricewinehomepage.util.security.CustomUser
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.oauth2.core.user.OAuth2User
 
 class CustomOAuth2User(
     private val userDto: UserDto,
-) : OAuth2User {
+) : OAuth2User, CustomUser() {
     override fun getName(): String {
         return userDto.name
     }
@@ -21,6 +22,10 @@ class CustomOAuth2User(
     }
 
     fun getUsername(): String {
+        return userDto.username
+    }
+
+    override fun commonGetUserName(): String {
         return userDto.username
     }
 }

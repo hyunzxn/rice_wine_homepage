@@ -15,7 +15,6 @@ import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -53,7 +52,7 @@ class SecurityConfig(
                 LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil),
                 UsernamePasswordAuthenticationFilter::class.java,
             )
-            .addFilterAfter(JwtAuthFilter(jwtUtil), LoginFilter::class.java)
+            .addFilterBefore(JwtAuthFilter(jwtUtil), LoginFilter::class.java)
             .addFilterAfter(JwtAuthFilter(jwtUtil), OAuth2LoginAuthenticationFilter::class.java)
             .exceptionHandling {
                 it.authenticationEntryPoint(UnAuthorizedHandler(objectMapper))

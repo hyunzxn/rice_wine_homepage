@@ -2,6 +2,7 @@ package org.gangneung.ricewinehomepage.service.auth
 
 import org.gangneung.ricewinehomepage.domain.user.User
 import org.gangneung.ricewinehomepage.implement.user.UserReader
+import org.gangneung.ricewinehomepage.util.security.CustomUser
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -21,7 +22,7 @@ class CustomUserDetailsService(
 
 class CustomUserDetails(
     private val user: User,
-) : UserDetails {
+) : UserDetails, CustomUser() {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         val collection = ArrayList<GrantedAuthority>()
         collection.add(GrantedAuthority { user.role })
@@ -50,5 +51,9 @@ class CustomUserDetails(
 
     override fun isEnabled(): Boolean {
         return true
+    }
+
+    override fun commonGetUserName(): String {
+        return user.username
     }
 }

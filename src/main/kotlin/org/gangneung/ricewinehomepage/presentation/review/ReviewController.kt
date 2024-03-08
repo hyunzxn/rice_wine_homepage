@@ -5,7 +5,7 @@ import org.gangneung.ricewinehomepage.presentation.review.response.ReviewRespons
 import org.gangneung.ricewinehomepage.service.review.ReviewService
 import org.gangneung.ricewinehomepage.util.ApiResponse
 import org.gangneung.ricewinehomepage.util.CustomPagingRequest
-import org.gangneung.ricewinehomepage.util.security.oauth2.CustomOAuth2User
+import org.gangneung.ricewinehomepage.util.security.CustomUser
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,14 +20,13 @@ import org.springframework.web.bind.annotation.RestController
 class ReviewController(
     private val reviewService: ReviewService,
 ) {
-    // todo 인증 완료된 User -> 자체 로그인, 소셜 로그인 다 받을 수 있는 방법 고민
     @PreAuthorize("isAuthenticated()")
     @PostMapping
     fun append(
         @RequestBody request: ReviewAppend,
-        @AuthenticationPrincipal user: CustomOAuth2User,
+        @AuthenticationPrincipal user: CustomUser,
     ): ApiResponse<String> {
-        val username = user.getUsername()
+        val username = user.commonGetUserName()
         reviewService.append(username, request)
         return ApiResponse.ok("고객 리뷰 등록 성공", "리뷰를 등록했습니다. 소중한 의견 감사드립니다.")
     }
@@ -44,14 +43,13 @@ class ReviewController(
         return ApiResponse.ok("개별 리뷰 조회 성공", reviewService.getReview(id))
     }
 
-    // todo 인증 완료된 User -> 자체 로그인, 소셜 로그인 다 받을 수 있는 방법 고민
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/likes/{id}")
     fun likeReview(
         @PathVariable id: Long,
-        @AuthenticationPrincipal user: CustomOAuth2User,
+        @AuthenticationPrincipal user: CustomUser,
     ): ApiResponse<Long> {
-        val username = user.getUsername()
+        val username = user.commonGetUserName()
         return ApiResponse.ok("좋아요 요청 성공", reviewService.likeReview(id, username))
     }
 }
