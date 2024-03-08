@@ -55,6 +55,5 @@ class LoginFilter(
         failed: AuthenticationException,
     ) {
         response.status = 401
-        println("왜 로그인이 안 되지?")
     }
 }
